@@ -1,0 +1,24 @@
+doctype html
+html
+    head
+        title test
+    body
+        h1 Hello World!
+        h2 #{name}
+        #description 본문이야.
+        input(id='text',type='text')
+        
+        - let val = 1
+        case val
+            when 0
+                - break
+            when 1
+                p value = #{val}
+            when 2
+                p value = #{val} wow!
+        
+        
+        - let arr = ['이렇게','하면','되는','건가']
+        for i in arr
+            li= i
+        
