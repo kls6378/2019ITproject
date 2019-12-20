@@ -22,17 +22,26 @@
         <br>
         <input type="password" name="password2" id="password2" oninput="pwCheck()">
         <br><br>
-        <input type="submit" value="회원가입">
+        <input type="submit" value="회원가입" id="submit">
     </form>
     <script>
         let pw1 = document.getElementById('password1')
         let pw2 = document.getElementById('password2')
+        let submit = document.getElementById('submit')
+
         function pwCheck(){
-            if(pw1.value === pw2.value)
+            if(pw1.value === pw2.value){
+                isCheckPw = true
                 pw2.style.backgroundColor = '#00dd00'
-            else
+                submit.disabled = false
+            }
+            else{
+                isCheckPw = false
                 pw2.style.backgroundColor = '#ff0000'
+                submit.disabled = 'disabled'
+            }
         }
     </script>
+
 </body>
 </html>

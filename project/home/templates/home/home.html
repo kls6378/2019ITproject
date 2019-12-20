@@ -7,7 +7,11 @@
     <title>홈</title>
 </head>
 <body>
+    {% if user == 'AnonymousUser'%}
+    <h1>하이요</h1>
+    {% else %}
     <h1>하이요 {{user}}</h1>
+    {% endif %}
     <a href="{% url 'login' %}">로그인</a>
     <a href="{% url 'register' %}">회원가입</a>
     <a href="{% url 'logout' %}">로그아웃</a>
