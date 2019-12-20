@@ -16,13 +16,23 @@
         <br>
         Password
         <br>
-        <input type="password" name="password1">
+        <input type="password" name="password1" id="password1">
         <br>
         Confirm Password
         <br>
-        <input type="password" name="password2">
+        <input type="password" name="password2" id="password2" oninput="pwCheck()">
         <br><br>
         <input type="submit" value="회원가입">
     </form>
+    <script>
+        let pw1 = document.getElementById('password1')
+        let pw2 = document.getElementById('password2')
+        function pwCheck(){
+            if(pw1.value === pw2.value)
+                pw2.style.backgroundColor = '#00dd00'
+            else
+                pw2.style.backgroundColor = '#ff0000'
+        }
+    </script>
 </body>
 </html>
