@@ -12,7 +12,7 @@
         {% csrf_token %}
         Username
         <br>
-        <input type="text" name="username">
+        <input type="text" name="username" maxlength="20">
         <br>
         Password
         <br>
@@ -28,6 +28,8 @@
         let pw1 = document.getElementById('password1')
         let pw2 = document.getElementById('password2')
         let submit = document.getElementById('submit')
+
+        submit.disabled = 'disabled'
 
         function pwCheck(){
             if(pw1.value === pw2.value){

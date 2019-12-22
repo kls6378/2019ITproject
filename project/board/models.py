@@ -3,8 +3,10 @@ from django.db import models
 # Create your models here.
 
 class Board(models.Model):
+    vote = models.IntegerField(default=0)
     title = models.CharField(max_length=30)
     contents = models.CharField(max_length=300)
+    author = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add=True)
     tag = models.CharField(max_length=20)
 
@@ -14,6 +16,7 @@ class Board(models.Model):
 class Comment(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     contents = models.CharField(max_length=300)
+    author = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

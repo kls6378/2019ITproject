@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        table {
+            width: 900px;
+            border-top: 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border-bottom: 1px solid #444444;
+            padding: 10px;
+        }
+        
+        .vote{
+            width: 5%;
+        }
+
+        .title{
+            width: 65%;
+        }
+
+        .author{
+            width: 15%;
+        }
+
+        .date{
+            width: 15%;
+        }
+    </style>
+    <title>게시판</title>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th class="vote">추천수</th>
+                <th class="title">제목</th>
+                <th class="author">작성자</th>
+                <th class="date">날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if board_list %}
+            {% for list in board_list %}
+            <tr>
+                <td class="vote">{{list.vote}}</td>
+                <td class="title"><a href="#">{{list.title}}</a></td>
+                <td class="author">{{list.author}}</td>
+                <td class="date">{{ list.date|date:"Y-m-d" }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+
+            {% endif %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
