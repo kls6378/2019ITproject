@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ board.title }} - 수정하기</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        Title
+        <br>
+        <input type="text" name="title" value="{{ board.title }}" maxlength="30">
+        <br>
+        Contents
+        <br>
+        <textarea name="contents" id="" cols="30" rows="10" maxlength="300">
+            {{ board.contents }}
+        </textarea>
+        <br>
+        Tag
+        <br>
+        <input type="text" name="tag" value="{{ board.tag }}" maxlength="20">
+        <br>
+        <input type="submit" value="수정">
+    </form>
+    <a href="">뒤로가기</a>
+</body>
+</html>

@@ -39,7 +39,7 @@
     <table>
         <thead>
             <tr>
-                <th class="vote">추천수</th>
+                <th class="vote"></th>
                 <th class="title">제목</th>
                 <th class="author">작성자</th>
                 <th class="date">날짜</th>
@@ -49,9 +49,9 @@
             {% if board_list %}
             {% for list in board_list %}
             <tr>
-                <td class="vote">{{list.vote}}</td>
-                <td class="title"><a href="#">{{list.title}}</a></td>
-                <td class="author">{{list.author}}</td>
+                <td class="vote">{{ list.vote }}</td>
+                <td class="title"><a href="{{ list.id }}">{{ list.title }}</a></td>
+                <td class="author">{{ list.author }}</td>
                 <td class="date">{{ list.date|date:"Y-m-d" }}</td>
             </tr>
             {% endfor %}
