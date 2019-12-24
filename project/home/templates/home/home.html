@@ -8,6 +8,7 @@
 </head>
 <body>
     {% if user.is_active %}
+    <h2>환영합니다. {{ user.username }}님</h2>
     <a href="{% url 'logout' %}">로그아웃</a>
     <a href="{% url 'select' %}">들어가기</a>
     {% else %}

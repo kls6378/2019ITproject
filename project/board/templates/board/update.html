@@ -15,9 +15,7 @@
         <br>
         Contents
         <br>
-        <textarea name="contents" id="" cols="30" rows="10" maxlength="300">
-            {{ board.contents }}
-        </textarea>
+        <textarea name="contents" id="" cols="30" rows="10" maxlength="300">{{ board.contents }}</textarea>
         <br>
         Tag
         <br>
@@ -25,6 +23,6 @@
         <br>
         <input type="submit" value="수정">
     </form>
-    <a href="">뒤로가기</a>
+    <a href="{% url 'board_detail' board.id%}">뒤로가기</a>
 </body>
 </html>

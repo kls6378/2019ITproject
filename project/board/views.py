@@ -63,18 +63,21 @@ def boardUpdate(request, board_id):
 
 
 def boardDelete(request, board_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     board = Board.objects.get(id=board_id)
 
     if request.method == 'POST':
-        if request.POST['password'] == board.password:
+        if board.author != request.user.username:
+            redirect(f'/board/{ board_id }')
+        else:
             board.delete()
             return redirect('/board/')
 
-    return render(request, 'board/delete.html',{'board':board})
-
 ##################################################################################################################################
 
-def cupdate(request, comment_id):
+def commentUpdate(request, comment_id):
     comment = Comment.objects.get(id=comment_id)
 
     if request.method == 'POST':
@@ -87,7 +90,7 @@ def cupdate(request, comment_id):
     return render(request, 'board/cupdate.html',{'comment':comment})
 
 
-def cdelete(request, comment_id):
+def commentDelete(request, comment_id):
     comment = Comment.objects.get(id=comment_id)
 
     if request.method == 'POST':

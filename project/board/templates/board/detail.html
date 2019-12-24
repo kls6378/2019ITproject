@@ -11,8 +11,8 @@
 <body>
     <a href="{% url 'board' %}">목록으로</a>
     {% if user.username == board.author %}
-    <a href="">수정</a>
-    <a href="">삭제</a>
+    <a href="{% url 'board_update' board.id %}">수정</a>
+    <span onclick="boardDelete()">삭제</span>
     {% endif %}
     <div class="board">
         <ul>
@@ -44,11 +44,11 @@
                 <h3>날짜 : {{ comment.date|date:"Y-m-d" }}</h3>
             </li>
             <li>
-                <div>내용 : {{ comment.contents }}</div>
+                <div>내용 : <span id="comment{{ comment.id }}">{{ comment.contents }}</span></div>
             </li>
             {% if user.username == comment.author %}
             <li>
-                <a href="">수정</a>
+                <span onclick="commentUpdate('comment{{ comment.id }}')">수정</span>
                 <a href="">삭제</a>
             </li>
             {% endif %}
@@ -63,7 +63,27 @@
             <input type="submit" value="작성">
         </form>
     </div>
+    <script>
+        function boardDelete(){
+            let actionPath = "{% url 'board_delete' board.id %}"
 
+            if(confirm('삭제하시겠습니까?')){
+                let form = document.createElement('form')
+                let body = document.getElementsByTagName('body')[0]
+                form.setAttribute('method', 'POST')
+                form.setAttribute('action', actionPath)
+                body.appendChild(form)
+                form.innerHTML = '{% csrf_token %}'
+                form.submit()
+            }
+        }
+
+        function commentUpdate(id){
+            let commentSpan = document.getElementById(id)
+            let temp = commentSpan.innerHTML
+            commentSpan.replaceChild(`<textarea name="contents" id="" cols="30" rows="10" maxlength="300">${temp}</textarea>`)
+        }
+    </script>
 </body>
 
 </html>
