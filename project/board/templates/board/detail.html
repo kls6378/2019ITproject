@@ -10,6 +10,8 @@
 
 <body>
     <a href="{% url 'board' %}">목록으로</a>
+    <span><b>{{ user.username }}</b></span>
+    <a href="{% url 'logout' %}">로그아웃</a>
     {% if user.username == board.author %}
     <a href="{% url 'board_update' board.id %}">수정</a>
     <span onclick="boardDelete()">삭제</span>
@@ -26,16 +28,23 @@
                 <h3>날짜 : {{ board.date|date:"Y-m-d" }}</h3>
             </li>
             <li>
-                <div>내용 : {{ board.contents }}</div>
+                <div>내용 : {{ board.contents|linebreaksbr }}</div>
             </li>
             <li>
                 <div>태그 : {{ board.tag }}</div>
             </li>
         </ul>
+        추천 버튼
+        <br>
+        <input type="button" value="추천 {{ board.goodVote }}">
+        <input type="button" value="비추천 {{ board.badVote }}">
     </div>
+
     <hr>
+
+    <h2>댓글 [ {{ board.comments.count }} ]</h2>
     <div class="comments">
-        {% for comment in board.comment_set.all %}
+        {% for comment in board.comments.all %}
         <ul>
             <li>
                 <h3>작성자 : {{ comment.author }}</h3>
@@ -44,12 +53,11 @@
                 <h3>날짜 : {{ comment.date|date:"Y-m-d" }}</h3>
             </li>
             <li>
-                <div>내용 : <span id="comment{{ comment.id }}">{{ comment.contents }}</span></div>
+                <div>내용 : <span id="comment{{ comment.id }}">{{ comment.contents|linebreaksbr }}</span></div>
             </li>
             {% if user.username == comment.author %}
-            <li>
-                <span onclick="commentUpdate('comment{{ comment.id }}')">수정</span>
-                <a href="">삭제</a>
+            <li id="btn{{ comment.id }}">
+                <span id="update{{ comment.id }}" onclick="commentUpdate({{ comment.id }})">수정</span> | <span id="delete{{ comment.id }}" onclick="commentDelete({{ comment.id }})">삭제</a>
             </li>
             {% endif %}
         </ul>
@@ -63,6 +71,7 @@
             <input type="submit" value="작성">
         </form>
     </div>
+
     <script>
         function boardDelete(){
             let actionPath = "{% url 'board_delete' board.id %}"
@@ -79,9 +88,40 @@
         }
 
         function commentUpdate(id){
-            let commentSpan = document.getElementById(id)
-            let temp = commentSpan.innerHTML
-            commentSpan.replaceChild(`<textarea name="contents" id="" cols="30" rows="10" maxlength="300">${temp}</textarea>`)
+            let commentSpan = document.getElementById(`comment${id}`)
+            let btns = document.getElementById(`btn${id}`)
+            let tempforargument = commentSpan.innerHTML
+            let tempfortextarea = commentSpan.innerHTML.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n')
+            commentSpan.innerHTML = `
+            <form action="${id}/update" method="POST">
+            {% csrf_token %}
+            <textarea name="contents" id="" cols="30" rows="10" maxlength="300">${tempfortextarea}</textarea>
+            <br>
+            <input type="submit" value="수정">
+            <input type="button" value="수정취소" onclick="commentUpdateCancle(${id},'${tempforargument}')">
+            </form>`
+            btns.style.display = 'none'
+        }
+
+        function commentUpdateCancle(id,temp){
+            let commentSpan = document.getElementById(`comment${id}`)
+            let btns = document.getElementById(`btn${id}`)
+            commentSpan.innerHTML = temp
+            btns.style.display = "block"
+        }
+
+        function commentDelete(id){
+            let actionPath = `${id}/delete`
+
+            if(confirm('삭제하시겠습니까?')){
+                let form = document.createElement('form')
+                let body = document.getElementsByTagName('body')[0]
+                form.setAttribute('method', 'POST')
+                form.setAttribute('action', actionPath)
+                body.appendChild(form)
+                form.innerHTML = '{% csrf_token %}'
+                form.submit()
+            }
         }
     </script>
 </body>

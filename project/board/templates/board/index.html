@@ -37,6 +37,9 @@
 
 <body>
     <a href="{% url 'board_create' %}">글작성</a>
+    <a href="{% url 'recipe' %}">레시피</a>
+    <span><b>{{ user.username }}</b></span>
+    <a href="{% url 'logout' %}">로그아웃</a>
     <table>
         <thead>
             <tr>
@@ -50,8 +53,8 @@
             {% if board_list %}
             {% for list in board_list %}
             <tr>
-                <td class="vote">{{ list.vote }}</td>
-                <td class="title"><a href="{{ list.id }}">{{ list.title }}</a></td>
+                <td class="vote">{{ list.goodVote }}</td>
+                <td class="title"><a href="{{ list.id }}">{{ list.title }}</a> [ {{ list.comments.count }} ]</td>
                 <td class="author">{{ list.author }}</td>
                 <td class="date">{{ list.date|date:"Y-m-d" }}</td>
             </tr>

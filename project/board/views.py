@@ -26,6 +26,7 @@ def boardCreate(request):
 
     return render(request, 'board/create.html')
 
+
 def boardDetail(request, board_id):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -53,11 +54,14 @@ def boardUpdate(request, board_id):
         redirect(f'/board/{ board_id }')
 
     if request.method == 'POST':
-        board.title = request.POST['title']
-        board.contents = request.POST['contents']
-        board.tag = request.POST['tag']
-        board.save()
-        return redirect(f'/board/{ board.id }')
+        if board.author != request.user.username:
+            redirect(f'/board/{ board_id }')
+        else:
+            board.title = request.POST['title']
+            board.contents = request.POST['contents']
+            board.tag = request.POST['tag']
+            board.save()
+            return redirect(f'/board/{ board.id }')
 
     return render(request, 'board/update.html',{'board':board})
 
@@ -75,27 +79,31 @@ def boardDelete(request, board_id):
             board.delete()
             return redirect('/board/')
 
-##################################################################################################################################
 
-def commentUpdate(request, comment_id):
+def commentUpdate(request, board_id, comment_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     comment = Comment.objects.get(id=comment_id)
 
     if request.method == 'POST':
-        if request.POST['password'] == comment.password:
-            comment.name = request.POST['name']
+        if comment.author != request.user.username:
+            redirect(f'/board/{ board_id }')
+        else:
             comment.contents = request.POST['contents']
             comment.save()
-            return redirect(f'/board/{ comment.board.id }')
-
-    return render(request, 'board/cupdate.html',{'comment':comment})
+            return redirect(f'/board/{ board_id }')
 
 
-def commentDelete(request, comment_id):
+def commentDelete(request, board_id, comment_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     comment = Comment.objects.get(id=comment_id)
 
     if request.method == 'POST':
-        if request.POST['password'] == comment.password:
+        if comment.author != request.user.username:
+            redirect(f'/board/{ board_id }')
+        else:
             comment.delete()
             return redirect(f'/board/{comment.board.id}')
-
-    return render(request, 'board/cdelete.html',{'comment':comment})
