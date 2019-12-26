@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from board.models import Board, Comment
+from board.models import Board, Comment, Vote
 
 # Create your views here.
 
@@ -107,3 +107,39 @@ def commentDelete(request, board_id, comment_id):
         else:
             comment.delete()
             return redirect(f'/board/{comment.board.id}')
+
+def goodVote(request, board_id):
+    if request.method == 'POST':
+        user = request.user
+        board = Board.objects.get(id=board_id)
+        vote = Vote.objects.filter(board__id=board_id)
+        if vote.filter(voteUser = user.username).exists():
+            return redirect(f'/board/{ board_id }')
+        else:
+            Vote.objects.create(
+                board = board,
+                voteUser = user.username
+            )
+            board.goodVote += 1
+            board.save()
+        return redirect(f'/board/{ board_id }')
+        
+        
+
+def badVote(request, board_id):
+    if request.method == 'POST':
+        user = request.user
+        board = Board.objects.get(id=board_id)
+        vote = Vote.objects.filter(board__id=board_id)
+        if vote.filter(voteUser = user.username).exists():
+            return redirect(f'/board/{ board_id }')
+        else:
+            Vote.objects.create(
+                board = board,
+                voteUser = user.username
+            )
+            board.badVote += 1
+            board.save()
+        return redirect(f'/board/{ board_id }')
+        
+        

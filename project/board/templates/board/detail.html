@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <h1></h1>
     <a href="{% url 'board' %}">목록으로</a>
     <span><b>{{ user.username }}</b></span>
     <a href="{% url 'logout' %}">로그아웃</a>
@@ -36,8 +37,8 @@
         </ul>
         추천 버튼
         <br>
-        <input type="button" value="추천 {{ board.goodVote }}">
-        <input type="button" value="비추천 {{ board.badVote }}">
+        <input type="button" value="추천 {{ board.goodVote }}" onclick="goodVote()">
+        <input type="button" value="비추천 {{ board.badVote }}" onclick="badVote()">
     </div>
 
     <hr>
@@ -122,6 +123,28 @@
                 form.innerHTML = '{% csrf_token %}'
                 form.submit()
             }
+        }
+
+        function goodVote(){
+            let actionPath = "{% url 'good_vote' board.id %}"
+            let form = document.createElement('form')
+            let body = document.getElementsByTagName('body')[0]
+            form.setAttribute('method', 'POST')
+            form.setAttribute('action', actionPath)
+            body.appendChild(form)
+            form.innerHTML = '{% csrf_token %}'
+            form.submit()
+        }
+
+        function badVote() {
+            let actionPath = "{% url 'bad_vote' board.id %}"
+            let form = document.createElement('form')
+            let body = document.getElementsByTagName('body')[0]
+            form.setAttribute('method', 'POST')
+            form.setAttribute('action', actionPath)
+            body.appendChild(form)
+            form.innerHTML = '{% csrf_token %}'
+            form.submit()
         }
     </script>
 </body>
