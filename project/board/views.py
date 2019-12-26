@@ -5,7 +5,7 @@ from board.models import Board, Comment, Vote
 
 def index(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     board_list=Board.objects.all().order_by('-date')
 
@@ -13,15 +13,17 @@ def index(request):
 
 def boardCreate(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     if request.method == 'POST':
         new_board = Board.objects.create(
             title = request.POST['title'],
             contents = request.POST['contents'],
             author = request.user.username,
-            tag = request.POST['tag'],
         )
+        tags = request.POST['tags'].replace(" ","").split(',')
+        for t in tags:
+            new_board.tags.add(t)
         return redirect(f'/board/{ new_board.id }')
 
     return render(request, 'board/create.html')
@@ -29,7 +31,7 @@ def boardCreate(request):
 
 def boardDetail(request, board_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
         
     board = Board.objects.get(id=board_id)
 
@@ -46,7 +48,7 @@ def boardDetail(request, board_id):
 
 def boardUpdate(request, board_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     board = Board.objects.get(id=board_id)
 
@@ -59,7 +61,9 @@ def boardUpdate(request, board_id):
         else:
             board.title = request.POST['title']
             board.contents = request.POST['contents']
-            board.tag = request.POST['tag']
+            tags = request.POST['tags'].replace(" ","").split(',')
+            for t in tags:
+                board.tags.add(t)
             board.save()
             return redirect(f'/board/{ board.id }')
 
@@ -68,7 +72,7 @@ def boardUpdate(request, board_id):
 
 def boardDelete(request, board_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     board = Board.objects.get(id=board_id)
 
@@ -82,7 +86,7 @@ def boardDelete(request, board_id):
 
 def commentUpdate(request, board_id, comment_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     comment = Comment.objects.get(id=comment_id)
 
@@ -97,7 +101,7 @@ def commentUpdate(request, board_id, comment_id):
 
 def commentDelete(request, board_id, comment_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('home')
 
     comment = Comment.objects.get(id=comment_id)
 

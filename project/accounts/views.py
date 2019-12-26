@@ -12,9 +12,9 @@ def register(request):
                 password=request.POST["password1"]
             )
             auth.login(request, user)
-            return redirect('home')
-        return render(request, 'accounts/register.html')
-    return render(request, 'accounts/register.html')
+            return redirect('welcome')
+        return render(request, 'accounts/sign_up.html')
+    return render(request, 'accounts/sign_up.html')
 
 def login(request):
     if request.method == "POST":
@@ -23,11 +23,11 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('home')
+            return redirect('welcome')
         else:
-            return render(request, 'accounts/login.html',{'error': 'username or password is incorrect.'})
+            return redirect('home')
     else:
-        return render(request, 'accounts/login.html')
+        return redirect('home')
 
 def logout(request):
     auth.logout(request)

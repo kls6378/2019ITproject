@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="10; url={% url 'select' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'splash.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>환영합니다.</title>
+</head>
+<body>
+        <div class="container">
+        <div class="scroller">
+        <div class="inner">
+            <span>{{ user.username }}님 밥 도둑에 오신걸 환영합니다!</span>
+            <span>저희 웹에서는 다양한 먹거리 레시피들을 제공합니다!</span>
+            <span>{{ user.username }}님도 자신만의 레시피를 공유해보세요!</span>
+            <span>대한민국 유일무이한 웹 사이트 <a href="{% url 'select' %}" class="blueb">밥도둑</a>을 체험해보세요!</span>
+        </div>
+        </div> 
+        </div>
+
+</body>
+</html>

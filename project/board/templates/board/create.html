@@ -5,24 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>게시판 작성</title>
+
+    <style>
+
+        body {
+            background-color: #9783aa;
+        }
+
+        #divPosition {
+            width: 50%;
+            background-color: #A47FA0;
+            border: 2px solid white;
+            border-radius: 3%;
+            min-width: 800px;
+            min-height: 450px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            padding: 10px;
+        }
+
+        h1 {
+            color:	#5e0ba5;
+            border: none;
+        }
+        h2 {
+            color : white;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
+
+        .effect {
+            color: #494949 !important;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: #ffffff;
+            padding: 20px;
+            border: 4px solid #494949 !important;
+            display: inline-block;
+            transition: all 0.4s ease 0s;
+            float: right;
+            margin-right: 5px;
+        }
+        .effect:hover {
+            color: #ffffff !important;
+            background: #f6b93b;
+            border-color: #f6b93b !important;
+            font-weight: bold;
+            transition: all 0.4s ease 0s;
+        }
+
+    </style>
+
 </head>
 <body>
-    <form method="POST">
-        {% csrf_token %}
-        Title
-        <br>
-        <input type="text" name="title" maxlength="30">
-        <br>
-        Contents
-        <br>
-        <textarea name="contents" id="" cols="30" rows="10" maxlength="300"></textarea>
-        <br>
-        Tag
-        <br>
-        <input type="text" name="tag" maxlength="20">
-        <br>
-        <input type="submit" value="작성">
-    </form>
-    <a href="{% url 'board' %}">뒤로가기</a>
+    <div id="divPosition">
+        <h1>게시판 작성</h1>
+        <div class="box1">
+            <form method="POST">
+                {% csrf_token %}
+                <h2>Title</h2>
+                <br>
+                <input type="text" name="title" maxlength="30">
+                <br>
+                <h2>Contents</h2>
+                <br>
+                <textarea name="contents" id="" cols="50" rows="10" maxlength="300"></textarea>
+                <br>
+                <h2>Tag</h2>
+                <br>
+                <input type="text" name="tags" maxlength="140">
+                <br>
+                <strong>태그는 쉼표로 구분합니다.</strong>
+                <br>
+                <input type="submit" class="effect" value="작성">
+            </form>
+            <a class="effect" href="{% url 'board' %}">뒤로가기</a>
+        </div>
+    </div>
+
 </body>
 </html>

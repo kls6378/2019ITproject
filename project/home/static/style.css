@@ -1,0 +1,36 @@
+html, body {
+    width:100%;
+    height:100%;
+    position: fixed;
+}
+body{
+    margin: 0;
+    display: flex;
+}
+
+#section1 {
+    flex: 1;
+    height: 100%;
+    opacity: 0.3;
+    transition-property: opacity;
+}
+
+#section1:hover {
+    transition-property: opacity;
+    transition-duration: 1s;
+    opacity: 1;
+}
+
+#section2 {
+    flex: 1;
+    height: 100%;
+    left: 50%;
+    opacity: 0.3;
+    transition-property: opacity;
+}
+
+#section2:hover {
+    transition-property: opacity;
+    transition-duration: 1.5s;
+    opacity: 1;
+}

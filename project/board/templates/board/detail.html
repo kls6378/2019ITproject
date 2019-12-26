@@ -8,70 +8,273 @@
     <title>{{ board.title }}</title>
 </head>
 
+<style>
+    body {
+        width: 100%;
+        margin: 0;
+    }
+
+    .nav-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: darkslategrey;
+        list-style-type: none; 
+        justify-content: flex-end;
+    }
+
+    .nav-item {
+        padding: 15px;
+        cursor: pointer; 
+    }
+    .nav-item a { 
+        text-align: center;
+        text-decoration: none; 
+        color: white;
+    }
+    
+    .nav-item span { 
+        text-align: center;
+        text-decoration: none; 
+        color: white;
+    }
+
+    span{
+        color: black;
+    }
+
+    .nav-item:nth-child(1) {
+        width: 60%;
+        background-color: lightseagreen;
+    }
+
+    .nav-item:hover {
+        background-color: grey;
+    }
+
+    #detail_memo_style {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #a7d4d4;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding: 2%;
+    }
+
+    .memo_title {
+        font-size: x-large;
+        font-weight: bold;
+        word-break: break-all;
+        display: inline;
+    }
+
+    .memo_pub_date {
+        font-size: 15px;
+        display: inline;
+        float: right;
+    }
+
+    hr {
+        border-color: white;
+        background-color: white;
+        height: 3px;
+    }
+
+    .btn {
+        display: inline;
+        float: right;
+        font-size: 20px;
+        color: #0099CC; 
+        background: transparent; 
+        border: 2px solid #0099CC;
+        border-radius: 6px;
+    }
+
+    .btn:hover {     
+        background-color: #008CBA;  
+        color: white; 
+    }
+
+    .btn_like {
+        font-size: 20px;
+        color: blue; 
+        background: transparent; 
+        border: 2px solid blue;
+        border-radius: 6px;
+    }
+
+    .btn_like:hover {     
+        background-color: blue;  
+        color: white; 
+    }
+
+    .btn_hate{
+        font-size: 20px;
+        color: red; 
+        background: transparent; 
+        border: 2px solid red;
+        border-radius: 6px;
+    }
+
+    .btn_hate:hover {     
+        background-color: red;  
+        color: white; 
+    }
+
+    .title {
+        font-size: 40px;
+        font-weight: bold;
+        color: #0a093b;
+    }
+
+    #content {
+        font-size: 30px;
+    }
+
+    #tag {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1c1a59;
+    }
+
+    .commentsBox {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .comments {
+        background: #c0c0c0;
+        border: #a0a0a0 solid 1px;
+        margin: 20px;
+    }
+    .commentsBox:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -0.25em;
+    }
+    
+    .comments {
+        display: inline-block;
+        vertical-align: middle;
+        width: 300px;
+        padding: 10px 15px;
+        border: #a0a0a0 solid 1px;
+        background: #f5f5f5;
+    }
+
+    h2 {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #writeComment {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    textarea {
+        width: 90%;
+    }
+
+    #commentsBox {
+        background-color: white;
+        padding: 2%;
+    }
+
+    .commentWriter {
+        font-size: x-large;
+        font-weight: bold;
+        word-break: break-all;
+        display: inline;
+    }
+
+    .comment_pub_date {
+        font-size: 15px;
+        display: inline;
+        float: right;
+    }
+
+    hr {
+        border-color: white;
+        background-color: white;
+        height: 3px;
+    }
+
+</style>
+
 <body>
-    <h1></h1>
-    <a href="{% url 'board' %}">목록으로</a>
-    <span><b>{{ user.username }}</b></span>
-    <a href="{% url 'logout' %}">로그아웃</a>
-    {% if user.username == board.author %}
-    <a href="{% url 'board_update' board.id %}">수정</a>
-    <span onclick="boardDelete()">삭제</span>
-    {% endif %}
-    <div class="board">
-        <ul>
-            <li>
-                <h1>제목 : {{ board.title }}</h1>
-            </li>
-            <li>
-                <h3>작성자 : {{ board.author }}</h3>
-            </li>
-            <li>
-                <h3>날짜 : {{ board.date|date:"Y-m-d" }}</h3>
-            </li>
-            <li>
-                <div>내용 : {{ board.contents|linebreaksbr }}</div>
-            </li>
-            <li>
-                <div>태그 : {{ board.tag }}</div>
-            </li>
-        </ul>
-        추천 버튼
-        <br>
-        <input type="button" value="추천 {{ board.goodVote }}" onclick="goodVote()">
-        <input type="button" value="비추천 {{ board.badVote }}" onclick="badVote()">
-    </div>
+    <nav class="nav-container">
+        <li class="nav-item">
+            <a href="{% url 'board' %}">목록으로</a>
+        </li>
+        <li class="nav-item"><span><b>{{ user.username }}</b></span></li>
+        <li class="nav-item"><a href="{% url 'logout' %}">로그아웃</a></li>
+    </nav>
 
-    <hr>
-
-    <h2>댓글 [ {{ board.comments.count }} ]</h2>
-    <div class="comments">
-        {% for comment in board.comments.all %}
-        <ul>
-            <li>
-                <h3>작성자 : {{ comment.author }}</h3>
-            </li>
-            <li>
-                <h3>날짜 : {{ comment.date|date:"Y-m-d" }}</h3>
-            </li>
-            <li>
-                <div>내용 : <span id="comment{{ comment.id }}">{{ comment.contents|linebreaksbr }}</span></div>
-            </li>
-            {% if user.username == comment.author %}
-            <li id="btn{{ comment.id }}">
-                <span id="update{{ comment.id }}" onclick="commentUpdate({{ comment.id }})">수정</span> | <span id="delete{{ comment.id }}" onclick="commentDelete({{ comment.id }})">삭제</a>
-            </li>
+    <div id="detail_memo_style" class="memo_style" style="margin-top: 1.5em;" >
+        <div class="memo_title memo_style">{{ board.author }}</div>
+        <div class="memo_pub_date memo_style" style="margin-bottom: 1em;">작성 일자 : {{ board.date|date:"Y-m-d" }}</div>
+        <hr>
+        <div class="articleModify">
+            {% if user.username == board.author %}
+                <a href="{% url 'board_update' board.id %}"><button class="btn">수정</button></a>
+                <button onclick="boardDelete()" class="btn">삭제</button>
             {% endif %}
-        </ul>
-        {% endfor %}
+        </div>
+        <br><br>
+        <div class="title">제목 : {{ board.title }}</div>
+        <br>
+        <div id="content">내용 : {{ board.contents|linebreaksbr }}</div>
+        <br><br>
+        <div id="tag">태그 : {% for tag in board.tags.all %}
+            <b>{{ tag.name }}</b>{% if not forloop.last %},{% endif %}&nbsp;
+        {% endfor %}</div>
+
+        <br>
+        <input type="button" value="추천 {{ board.goodVote }}" class="btn_like" onclick="goodVote()">
+        <input type="button" value="비추천 {{ board.badVote }}" class="btn_hate" onclick="badVote()">
     </div>
-    <div>
+    
+    <br><br><br>
+    
+    <h2>댓글 [ {{ board.comments.count }} ]</h2>
+
+    <div id="writeComment">
         <form method="POST">
             {% csrf_token %}
-            <textarea name="contents" id="" cols="30" rows="10" maxlength="300"></textarea>
-            <br>
-            <input type="submit" value="작성">
+            <textarea name="contents" id="" cols="" rows="5" maxlength="300"></textarea>
+            <input type="submit" value="작성" id="writeComBtn" class = "btn" font-size = "20px">
         </form>
     </div>
+
+    <br>
+
+    {% for comment in board.comments.all %}
+    <hr>
+        <div id="commentsBox" class="memo_style" style="margin-top: 1.5em;" >
+            <div class="commentWriter memo_style">작성자 : {{ comment.author }}</div>
+            <div class="comment_pub_date memo_style" style="margin-bottom: 1em;">작성 일자 : {{ comment.date|date:"Y-m-d" }}</div>
+            <hr>
+            {% if user.username == comment.author %}
+            <div id="btn{{ comment.id }}">
+                <button id="update{{ comment.id }}" onclick="commentUpdate({{ comment.id }})" class = "btn">수정</button> 
+                <button id="delete{{ comment.id }}" onclick="commentDelete({{ comment.id }})" class = "btn">삭제</button>
+            </div>
+            {% endif %}
+            <div id="comment_content">내용 : 
+                    <span id="comment{{ comment.id }}">{{ comment.contents|linebreaksbr }}</span>
+            </div>
+            <br>
+        </div>
+        <hr>
+    {% endfor %}
 
     <script>
         function boardDelete(){
@@ -94,7 +297,7 @@
             let tempforargument = commentSpan.innerHTML
             let tempfortextarea = commentSpan.innerHTML.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n')
             commentSpan.innerHTML = `
-            <form action="${id}/update" method="POST">
+            <form action="${id}/update/" method="POST">
             {% csrf_token %}
             <textarea name="contents" id="" cols="30" rows="10" maxlength="300">${tempfortextarea}</textarea>
             <br>
@@ -112,7 +315,7 @@
         }
 
         function commentDelete(id){
-            let actionPath = `${id}/delete`
+            let actionPath = `${id}/delete/`
 
             if(confirm('삭제하시겠습니까?')){
                 let form = document.createElement('form')

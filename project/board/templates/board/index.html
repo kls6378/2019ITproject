@@ -1,63 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
-        table {
-            width: 900px;
-            border-top: 1px solid #444444;
-            border-collapse: collapse;
+        #user_info {
+            border: none;
+            min-width: 500px;
+            min-height: 50px;
+            width: 80%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        th, td {
-            border-bottom: 1px solid #444444;
+        #user_info thead th {
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #fff;
+            background: #4affbc;
+            margin: 20px 10px;
+        }
+
+        .write {
+            width: 10%
+        }
+
+        .recipe {
+            width: 10%
+        }
+
+        .blank {
+            width: 60%
+        }
+
+        .username {
+            width: 10%
+        }
+
+        .logout {
+            width: 10%
+        }
+
+        #board {
+            min-width: 500px;
+            min-height: 200px;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            line-height: 1.5;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5%;
+        }
+
+        #board thead th {
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #fff;
+            background: #a7d4d4;
+            margin: 20px 10px;
+        }
+
+        #board tbody th {
             padding: 10px;
         }
-        
-        .vote{
+
+        #board td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .vote {
             width: 5%;
         }
 
-        .title{
+        .title {
             width: 65%;
         }
 
-        .author{
+        .author {
             width: 15%;
         }
 
-        .date{
+        .date {
             width: 15%;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+        }
+
+
+        .nav-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: darkslategrey;
+            list-style-type: none;
+            justify-content: flex-end;
+        }
+
+        .nav-item {
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .nav-item a,
+        span {
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-item:nth-child(1) {
+            width: 60%;
+            background-color: lightseagreen;
+        }
+
+        .nav-item:hover {
+            background-color: grey;
         }
     </style>
     <title>게시판</title>
 </head>
 
 <body>
-    <a href="{% url 'board_create' %}">글작성</a>
-    <a href="{% url 'recipe' %}">레시피</a>
-    <span><b>{{ user.username }}</b></span>
-    <a href="{% url 'logout' %}">로그아웃</a>
-    <table>
+    <nav class="nav-container">
+        <li class="nav-item">
+            <a href="{% url 'board' %}">목록으로</a>
+        </li>
+        <li class="nav-item"><b><a href="{% url 'recipe' %}">재료 검색</a></b></li>
+        <li class="nav-item"><b><a href="{% url 'board_create' %}">글작성</a></b></li>
+        <li class="nav-item"><span><b>{{ user.username }}</b></span></li>
+        <li class="nav-item"><a href="{% url 'logout' %}">로그아웃</a></li>
+    </nav>
+
+
+
+
+
+    <table id="board">
         <thead>
             <tr>
-                <th class="vote"></th>
+                <th class="vote">추천</th>
                 <th class="title">제목</th>
                 <th class="author">작성자</th>
                 <th class="date">날짜</th>
             </tr>
         </thead>
         <tbody>
+
             {% if board_list %}
             {% for list in board_list %}
             <tr>
-                <td class="vote">{{ list.goodVote }}</td>
-                <td class="title"><a href="{{ list.id }}">{{ list.title }}</a> [ {{ list.comments.count }} ]</td>
-                <td class="author">{{ list.author }}</td>
-                <td class="date">{{ list.date|date:"Y-m-d" }}</td>
+                <td class="vote">
+                    {{ list.goodVote }}
+                </td>
+                <td class="title">
+                    <a href="{{ list.id }}">
+                        {{ list.title }}
+                    </a>
+                    [ {{ list.comments.count }} ]
+                </td>
+                <td class="author">
+                    {{ list.author }}
+                </td>
+                <td class="date">
+                    {{ list.date|date:"Y-m-d" }}
+                </td>
             </tr>
+
             {% endfor %}
             {% else %}
 

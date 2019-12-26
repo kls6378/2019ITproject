@@ -1,13 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>선택</title>
 </head>
 <body>
-    <a href="{% url 'recipe' %}">레시피</a>
-    <a href="{% url 'board' %}">게시판</a>
+    <a href="{% url 'board' %}"><img src="{% static 'food.jpg' %}" alt="게시판가기" id="section1"></a>
+    <a href="{% url 'recipe' %}"><img src="{% static 'ingredient.PNG' %}" alt="재료 선택" id="section2"></a>
 </body>
 </html>

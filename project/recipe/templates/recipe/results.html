@@ -9,11 +9,12 @@
     <style>
         body {
             background-color: #eebdff;
+            flex-direction: column;
         }
 
         h1 {
             color:	white;
-            border: 3px solid #5e0ba5;
+            border: 2px solid white;
             margin-top: 20%;;
             text-align: center;
         }
@@ -22,7 +23,7 @@
         input::-webkit-input-placeholder {color:#a8a8a8;} 
         input::-moz-placeholder {color:#a8a8a8;} 
 
-        div{
+        .search {
             height: 40px;
             width: 60%;
             border: 1px solid #1b5ac2;
@@ -53,6 +54,34 @@
             color: #ffffff
         }
 
+        ul.mylist {
+            list-style: none;
+            margin: 0px;
+            margin-top: 10%;
+            padding: 0px;
+            max-width: 700px;
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        ul.mylist li {
+            padding: 5px 0px 5px 5px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #a154c3;
+            font-size: 20px;
+
+        }
+        ul.mylist li:last-child {
+            border-bottom: 0px;
+        }
+        ul.mylist li:before {
+            content: ">";
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0px 5px 6px 0px;
+        }
+
         #toBoard{
             padding: 10px;
             background:#1b5ac2;
@@ -66,11 +95,19 @@
 <body>
     <h1>재료 Choice</h1>
     <a href="{% url 'board' %}" id="toBoard">게시판</a>
-    <div>
-        <form action="{% url 'search' %}">
+    <div class="search">
+        <form>
             <input type="text" placeholder="태그 입력" name="tags">
             <input type="submit" value="검색">
         </form>
+    </div>
+
+    <div class="result">
+        <ul class="mylist">
+            {% for list in board %}
+            <li><a href="{% url 'board_detail' list.id %}">{{ list.title }}</a></li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>

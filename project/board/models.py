@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -7,7 +8,7 @@ class Board(models.Model):
     contents = models.CharField(max_length=300)
     author = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add=True)
-    tag = models.CharField(max_length=20)
+    tags = TaggableManager()
     goodVote = models.IntegerField(default=0)
     badVote = models.IntegerField(default=0)
 
