@@ -5,7 +5,7 @@ from taggit.managers import TaggableManager
 
 class Board(models.Model):
     title = models.CharField(max_length=30)
-    contents = models.CharField(max_length=300)
+    contents = models.CharField(max_length=1000)
     author = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add=True)
     tags = TaggableManager()
